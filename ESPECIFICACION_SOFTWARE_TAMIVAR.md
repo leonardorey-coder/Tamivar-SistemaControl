@@ -5,7 +5,7 @@ Autor: Equipo de desarrollo
 Estado: Propuesta inicial (v0.1)
 
 ## 1. Resumen ejecutivo
-La empresa Tamivar enfrenta desorganización y falta de visibilidad en tres frentes clave: control de gastos, seguimiento de facturación y gestión de materiales de obra. El objetivo es implementar una aplicación de escritorio (Electron) con capacidades PWA (funciona offline) y base de datos local embebida (SQLite), que estructure procesos, centralice datos, facilite auditoría y reporte, y mejore la toma de decisiones.
+La empresa Tamivar enfrenta desorganización y falta de visibilidad en tres frentes clave: control de gastos, seguimiento de facturación y gestión de materiales de obra. El objetivo es implementar una aplicación de escritorio Windows (WinUI 3 / .NET) con base de datos local embebida (SQLite) y operación offline, que estructure procesos, centralice datos, facilite auditoría y reporte, y mejore la toma de decisiones.
 
 ## 2. Problemática (extraída del documento)
 - No existe un sistema adecuado para el control de gastos: registros manuales, incompletos y poco confiables.
@@ -17,7 +17,7 @@ La empresa Tamivar enfrenta desorganización y falta de visibilidad en tres fren
 
 ## 3. Solución propuesta (síntesis)
 Desarrollar un sistema integral local con:
-- App de escritorio (Electron) con UI moderna (React + TypeScript) y capacidades PWA (Service Worker, cache, offline-first).
+- App de escritorio Windows con UI moderna basada en WinUI 3 (.NET 8) y operación offline-first.
 - Base de datos SQLite embebida, accesible solo a través de la app.
 - Módulos: Gastos, Facturación, Materiales, Proveedores, Proyectos/Obras, Reportes y Auditoría.
 - Flujos con evidencia (fotos/PDF de comprobantes), estatus y aprobaciones.
@@ -42,6 +42,18 @@ Desarrollar un sistema integral local con:
 - Dirección: panel ejecutivo y reportes.
 
 ## 7. Requisitos funcionales
+### 7.0 Autenticación y sesión (Login)
+- Inicio de sesión local offline con usuario/contraseña (sin dependencia de red).
+- Opción "Recordarme" para sesión persistente (renovable) en el dispositivo.
+- Política de contraseñas: mínimo 8 caracteres, al menos 1 mayúscula y 1 dígito.
+- Bloqueo por intentos fallidos: después de 5 intentos, bloqueo temporal con backoff exponencial.
+- 2FA opcional (TOTP) por usuario: activación con QR, verificación en login cuando esté habilitado.
+- Códigos de recuperación (10) de un solo uso para acceso en caso de pérdida del 2FA.
+- Cierre de sesión voluntario y cierre de todas las sesiones desde panel de cuenta.
+- Gestión de sesiones activas por dispositivo (lista, revocación individual).
+- Restablecimiento de contraseña local: mediante usuario administrador o mediante códigos de recuperación (sin email en v0.1).
+- Auditoría: registrar inicios/cierres de sesión, cambios de contraseña, activación/desactivación de 2FA.
+
 ### 7.1 Gastos
 - Capturar gasto con: fecha, obra/proyecto, categoría, proveedor, monto, forma de pago, centro de costo, descripción.
 - Adjuntar comprobantes (foto/PDF/XML), validación de obligatoriedad según categoría.
@@ -79,16 +91,15 @@ Desarrollar un sistema integral local con:
 - Seguridad: RBAC, cifrado de respaldos, hashes de contraseñas (Argon2/bcrypt), bloqueo de sesión.
 - Confiabilidad: respaldo manual/automático programable; restauración validada.
 - Usabilidad: interfaz en español, accesible (WCAG AA básico), atajos de teclado.
-- Portabilidad: macOS inicialmente; empaquetado con electron-builder.
+- Portabilidad: Windows 10/11 (x64); empaquetado e instalación con MSIX.
 
 ## 9. Arquitectura y tecnologías
-- Contenedor: Electron (main process) + Renderer (React + TypeScript + Vite).
-- PWA: Service Worker para cache de UI; modo offline; actualización controlada.
-- Datos: SQLite (better-sqlite3) con migraciones (Kysely/Drizzle). Adjuntos en filesystem app-data.
-- Capa de acceso a datos: Kysely (TS) con driver better-sqlite3 para tipado fuerte.
-- Estado y UI: React Query para datos; Zustand/Redux para estado UI; MUI/Tailwind para componentes.
-- IPC/Seguridad: Context Isolation, preload seguro; API interna (Electron IPC) como fachada.
-- Empaquetado: electron-builder (dmg/pkg para macOS). Auto-update opcional (siguiente fase).
+- UI nativa: WinUI 3 (.NET 8 / Windows App SDK).
+- Aplicación de escritorio: empaquetado MSIX; canal de actualización mediante MSIX/App Installer.
+- Datos: SQLite (Microsoft.Data.Sqlite) con migraciones (DbUp/FluentMigrator). Adjuntos en filesystem en AppData local.
+- Capa de acceso a datos: ORM/Query Builder (por ejemplo, Dapper o Entity Framework Core) con transacciones.
+- Estado y UI: MVVM (CommunityToolkit.Mvvm); navegación y páginas (Frame/Page), estilos XAML.
+- Integración con SO: notificaciones WinRT, almacenamiento seguro (Windows Credential Locker) para secretos.
 
 ### Diagramas de arquitectura y UML
 
@@ -96,23 +107,20 @@ Diagrama de arquitectura lógica (alto nivel):
 
 ```mermaid
 flowchart LR
-	U[Usuario] --> UI[Renderer Electron (React + TS)]
-	UI -->|IPC seguro (preload)| IPC[Canales IPC]
-	IPC --> MAIN[Proceso Main (Electron)]
-	MAIN --> DAL[Capa de Datos (Kysely + better-sqlite3)]
+	U[Usuario] --> UI[WinUI 3 (.NET 8)]
+	UI --> SVC[Servicios de Aplicación (MVVM/ViewModels)]
+	SVC --> DAL[Capa de Datos (EF Core/Dapper)]
 	DAL --> DB[(SQLite embebido)]
-	MAIN --> FS[Almacenamiento de adjuntos (Filesystem App-Data)]
-	UI --> SW[Service Worker]
-	SW --> CACHE[Cache UI/estáticos]
-	MAIN --> BACKUP[Backups cifrados AES-256]
-	UI --> AUTH[RBAC/Sesión]
+	SVC --> FS[Adjuntos (Filesystem AppData)]
+	SVC --> BACKUP[Backups cifrados AES-256]
+	UI --> AUTH[Sesión/RBAC]
 ```
 
 Diagrama de componentes (módulos principales):
 
 ```mermaid
 flowchart TB
-	subgraph UI[UI Renderer]
+	subgraph UI[WinUI 3 (XAML Views)]
 		G[Gastos]
 		F[Facturación]
 		M[Materiales]
@@ -121,12 +129,12 @@ flowchart TB
 		R[Reportes]
 		A[Auditoría/Backups]
 	end
-	UI --> API[API Interna (IPC)]
-	API --> SVCG[Servicio Gastos]
-	API --> SVCF[Servicio Facturación]
-	API --> SVCM[Servicio Materiales]
-	API --> SVCCAT[Servicios Catálogos]
-	API --> SVCSEC[Servicio Seguridad]
+	UI --> VM[ViewModels (MVVM)]
+	VM --> SVCG[Servicio Gastos]
+	VM --> SVCF[Servicio Facturación]
+	VM --> SVCM[Servicio Materiales]
+	VM --> SVCCAT[Servicios Catálogos]
+	VM --> SVCSEC[Servicio Seguridad]
 	SVCG & SVCF & SVCM & SVCCAT & SVCSEC --> DAL2[(DAO/Migraciones)]
 	DAL2 --> SQL[(SQLite)]
 	SVCG & SVCF --> FILES[(Adjuntos)]
@@ -223,6 +231,9 @@ Nota: claves primarias como `id` INTEGER AUTOINCREMENT; campos `created_at/updat
 
 - users: id, username, password_hash, role_id, display_name, last_login_at, is_active
 - roles: id, name, permissions (json)
+ - user_sessions: id, user_id, device_info, created_at, last_seen_at, revoked_at, refresh_token_hash
+ - user_mfa: id, user_id, totp_secret (cifrado), enabled (bool), enabled_at
+ - user_recovery_keys: id, user_id, code_hash, used_at
 - projects (obras): id, code, name, budget_amount, start_date, end_date, status
 - vendors (proveedores): id, rfc, name, contact, email, phone, notes
 - expense_categories: id, name, policy_limit, require_receipt (bool)
@@ -244,15 +255,53 @@ Nota: claves primarias como `id` INTEGER AUTOINCREMENT; campos `created_at/updat
 - Captura de gasto: Usuario crea → adjunta comprobante → valida reglas → envía a revisión → aprobar/rechazar → (si aprobado) marcar contabilizado/reembolsado.
 - Factura: Registrar datos básicos → adjuntar PDF/XML → estatus y vencimiento → alertas → marcar pagada/cancelada.
 - Materiales: Entrada por compra → aumenta stock → salida por consumo en obra → kardex y costo promedio.
+ - Login (con 2FA opcional):
+ 	1) Usuario ingresa usuario/contraseña → 2) Validación local (hash Argon2id/bcrypt) → 3) Si 2FA habilitado: solicitar TOTP/código recuperación → 4) Crear sesión y registrar auditoría → 5) Cargar panel.
+
+Secuencia: Inicio de sesión con 2FA (opcional)
+
+```mermaid
+sequenceDiagram
+	participant U as Usuario
+	participant UI as UI (Renderer)
+	participant P as Preload/IPC
+	participant SEC as Servicio Seguridad
+	participant DB as SQLite
+
+	U->>UI: Ingresa usuario y contraseña
+	UI->>P: login(username, password)
+	P->>SEC: verifyCredentials(username, password)
+	SEC->>DB: SELECT users.password_hash
+	DB-->>SEC: hash
+	SEC-->>P: OK/FAIL
+	alt OK y 2FA habilitado
+		UI->>U: Solicitar código TOTP
+		U->>UI: Ingresa TOTP/código recuperación
+		UI->>P: verifyMFA(code)
+		P->>SEC: verifyTOTP(user, code)
+		SEC-->>P: OK/FAIL
+	end
+	SEC->>DB: INSERT user_sessions
+	SEC->>DB: INSERT audit_log (login)
+	P-->>UI: Sesión creada
+	UI-->>U: Redirigir a Dashboard
+```
 
 ## 13. Seguridad
-- Autenticación local con almacenamiento de hash Argon2/bcrypt y bloqueo por intentos.
+- Autenticación local con almacenamiento de hash Argon2id (recomendado) o bcrypt (cost elevado) y bloqueo por intentos.
 - RBAC por roles (Admin/Contabilidad/Gestoría/Obra/Dirección) y permisos granularizados por módulo/acción.
 - Aislamiento de contexto en Electron, deshabilitar `nodeIntegration` en renderer; whitelisting de canales IPC.
 - Cifrado de respaldos (AES-256) con contraseña; validación de integridad (checksum).
 - Opción de base cifrada con SQLCipher en roadmap; en v0.1, cifrado de archivos de adjuntos en repositorio local.
 - Sanitización de entradas y validación estricta; protección contra inyección SQL (Kysely + parámetros).
 - Auditoría inmutable (append-only) y hash de adjuntos.
+
+### 13.1 Reglas específicas de login
+- Rate limiting por dispositivo: ventana deslizante (p. ej., 10 intentos/10 min), backoff exponencial tras bloqueos.
+- Almacenamiento de secreto TOTP (2FA) cifrado en repositorio local (clave derivada de passphrase del admin o keychain del OS en fases futuras).
+- Tokens/refresh locales: almacenar hash (no texto plano). Asociar a `user_sessions` con `last_seen_at` para invalidación.
+- Códigos de recuperación: generados al activar 2FA, almacenados como hash; visibles una sola vez; regeneración invalida anteriores.
+- Bloqueo de sesión por inactividad configurable (auto logout) y revalidación sensible (para operaciones críticas).
 
 ## 14. Privacidad y cumplimiento
 - Datos locales en el dispositivo; sin telemetría por defecto.
@@ -264,22 +313,22 @@ Nota: claves primarias como `id` INTEGER AUTOINCREMENT; campos `created_at/updat
 - Campos y validaciones guiadas; estados visibles con etiquetas (chips) y filtros guardados.
 - Soporte de arrastrar/soltar para adjuntos; visor embebido de PDF e imágenes.
 
+### 15.1 Login y panel de cuenta
+- Pantalla de login minimalista con branding Tamivar, soporte para mostrar/ocultar contraseña, opción "Recordarme" y acceso a soporte.
+- Mensajería clara de errores (credenciales inválidas, bloqueo temporal) sin revelar si el usuario existe.
+- Panel de configuración de cuenta con pestañas: Perfil, Seguridad (cambio de contraseña, 2FA, sesiones activas), Preferencias (tema/idioma/formato) y Notificaciones.
+- Accesibilidad: etiquetas correctamente asociadas, navegación por teclado, contraste adecuado, mensajes para lectores de pantalla.
+
 ## 16. Instalación y operación
 
-### macOS
-- Distribución .dmg/.pkg firmada; almacenamiento en `~/Library/Application Support/Tamivar/`.
-- Copias de seguridad manuales/automáticas programables a directorio elegido.
-- Herramienta de mantenimiento: reparar DB (VACUUM), verificar integridad de adjuntos.
-
-### Windows
-- Sistemas soportados: Windows 10/11 (x64).
-- Requisitos de build: Node.js LTS, Python 3.x, Visual Studio Build Tools (C++), para compatibilidad con módulos nativos (better-sqlite3/node-gyp).
-- Empaquetado con electron-builder: targets `nsis` (instalador) y/o `portable`.
-- Almacenamiento de datos: `%APPDATA%/Tamivar/` para DB y configuración. Respaldos sugeridos en `Documents/Tamivar/Backups`.
-- Notificaciones locales integradas con Windows; atajos usan Ctrl (p. ej., Ctrl+N) en lugar de ⌘.
-- Seguridad opcional: cifrado de secretos con DPAPI (vía librerías como `keytar`) para proteger credenciales locales; backups cifrados (AES-256) con contraseña.
-- Consideraciones: antivirus/copia en la nube pueden bloquear la DB; excluir `%APPDATA%/Tamivar/` o usar locking amigable. Evitar rutas de red.
-- Firma de código recomendada para SmartScreen.
+### Windows (WinUI 3)
+- Sistemas soportados: Windows 10/11 (x64) con Windows App SDK.
+- Build: .NET 8 SDK, Visual Studio 2022 (Workload de desarrollo de escritorio .NET), Windows App SDK, MSIX Packaging Tools.
+- Empaquetado: MSIX + App Installer para distribución y auto-actualización controlada.
+- Almacenamiento de datos: `%LOCALAPPDATA%/Tamivar/` para DB y configuración; respaldos en `Documents/Tamivar/Backups`.
+- Integración: notificaciones nativas (Windows Notifications), Credential Locker para secretos y claves TOTP.
+- Consideraciones: antivirus/copia en la nube pueden bloquear la DB; excluir carpeta de datos o usar file-locking seguro. Evitar rutas de red.
+- Firma de código para SmartScreen y sello de tiempo.
 
 ## 17. Plan de pruebas
 - Unitarias: reglas de validación (duplicados, límites), cálculos (totales, kardex).
@@ -288,6 +337,34 @@ Nota: claves primarias como `id` INTEGER AUTOINCREMENT; campos `created_at/updat
 - Aceptación: casos de uso por rol (checklist) y criterios de éxito por módulo.
 
 ### 17.1 Matriz de casos de prueba (MVP)
+- TC-LOGIN-001: Inicio de sesión exitoso
+	- Pasos: Usuario válido + contraseña correcta.
+	- Resultado: Acceso concedido, creación de sesión y auditoría.
+- TC-LOGIN-002: Credenciales inválidas
+	- Pasos: Usuario válido + contraseña incorrecta.
+	- Resultado: Acceso denegado; contador de intentos +1; mensaje genérico.
+- TC-LOGIN-003: Bloqueo por intentos
+	- Precondición: 4 intentos fallidos previos.
+	- Pasos: 5º intento fallido.
+	- Resultado: Bloqueo temporal y backoff; no se permite login.
+- TC-LOGIN-004: 2FA requerido
+	- Precondición: Usuario con 2FA habilitado.
+	- Pasos: Login correcto → solicitar TOTP.
+	- Resultado: Sin TOTP correcto, no se crea sesión.
+- TC-LOGIN-005: Código de recuperación
+	- Precondición: 2FA habilitado; disponer de un recovery code válido.
+	- Pasos: Login correcto → ingresar recovery code.
+	- Resultado: Acceso concedido; marca el código como usado.
+- TC-LOGIN-006: Cierre de sesión
+	- Pasos: Desde la app, ejecutar “Cerrar sesión”.
+	- Resultado: Sesión invalidada, vuelta a pantalla de login.
+- TC-LOGIN-007: Revocar otras sesiones
+	- Precondición: Usuario con 2 sesiones activas (desktop y móvil).
+	- Pasos: Revocar sesión móvil desde panel de seguridad.
+	- Resultado: Sesión móvil marcada como revocada; no puede reusar token.
+- TC-LOGIN-008: Recordarme
+	- Pasos: Login con “Recordarme” activo.
+	- Resultado: Persistencia de sesión tras reiniciar app (dentro de TTL configurado).
 - TC-EXP-001: Prevenir gastos duplicados
 	- Precondición: Existe gasto con folio F123 por $1,000 el 2025-09-01.
 	- Pasos: Capturar otro gasto con mismo folio/importe/fecha.
@@ -342,6 +419,8 @@ Nota: claves primarias como `id` INTEGER AUTOINCREMENT; campos `created_at/updat
 - Fase 4: Integración CFDI (consulta/validación), multi-equipo con sincronización.
 
 ## 20. Criterios de aceptación (MVP)
+- Autenticación local: inicio/cierre de sesión funcional offline con hash seguro y bloqueo por intentos.
+- 2FA opcional: activación, verificación TOTP y uso de códigos de recuperación; gestión de sesiones activas.
 - Registrar, aprobar y reportar gastos con adjuntos, sin errores críticos.
 - Ver reportes por obra/categoría/periodo y exportar CSV.
 - Registrar y seguir estatus de facturas, con alertas de vencimiento.

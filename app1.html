@@ -19,8 +19,106 @@
             }
         }
     </script>
+    <style>
+        .app-container { display: none; }
+        .app-container.active { display: block; }
+    </style>
 </head>
 <body class="bg-gray-50 font-sans">
+    
+    <!-- LOGIN VIEW -->
+    <div id="login-view" class="app-container active">
+        <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 p-4">
+            <div class="w-full max-w-md">
+            <!-- Login Card -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-8 text-white text-center">
+                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-building text-blue-600 text-3xl"></i>
+                    </div>
+                    <h1 class="text-3xl font-bold">Tamivar</h1>
+                    <p class="text-blue-100 mt-2">Sistema de Control Empresarial</p>
+                </div>
+
+                <!-- Login Form -->
+                <div class="p-8">
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">
+                                <i class="fas fa-user mr-2 text-blue-600"></i>Usuario
+                            </label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                placeholder="Ingresa tu usuario"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">
+                                <i class="fas fa-lock mr-2 text-blue-600"></i>Contraseña
+                            </label>
+                            <div class="relative">
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="Ingresa tu contraseña"
+                                    required
+                                >
+                                <button 
+                                    type="button"
+                                    onclick="togglePassword()"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                >
+                                    <i id="password-toggle-icon" class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">Recordarme</span>
+                            </label>
+                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                                ¿Olvidaste tu contraseña?
+                            </a>
+                        </div>
+
+                        <button 
+                            type="submit"
+                            class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        >
+                            <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Footer -->
+                <div class="bg-gray-50 px-8 py-4 border-t border-gray-200">
+                    <p class="text-center text-sm text-gray-600">
+                        ¿Problemas para acceder? 
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Contacta soporte</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="mt-6 text-center text-white text-sm">
+                <p class="opacity-90">© 2025 Tamivar. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- MAIN APP VIEW -->
+    <div id="main-app" class="app-container">
     <!-- Sidebar -->
     <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white shadow-2xl z-50 transition-transform duration-300">
         <div class="p-6 border-b border-blue-700">
@@ -34,43 +132,43 @@
         <nav class="p-4">
             <ul class="space-y-2">
                 <li>
-                    <a href="#" onclick="showView('dashboard')" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" onclick="showView('dashboard', this)" data-view="dashboard" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-home w-5"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showView('gastos')" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" onclick="showView('gastos', this)" data-view="gastos" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-receipt w-5"></i>
                         <span>Gastos</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showView('facturacion')" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" onclick="showView('facturacion', this)" data-view="facturacion" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-file-invoice-dollar w-5"></i>
                         <span>Facturación</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showView('materiales')" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" onclick="showView('materiales', this)" data-view="materiales" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-boxes w-5"></i>
                         <span>Materiales</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showView('proyectos')" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" onclick="showView('proyectos', this)" data-view="proyectos" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-project-diagram w-5"></i>
                         <span>Proyectos</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showView('proveedores')" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" onclick="showView('proveedores', this)" data-view="proveedores" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-truck w-5"></i>
                         <span>Proveedores</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showView('reportes')" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" onclick="showView('reportes', this)" data-view="reportes" class="nav-item flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-chart-bar w-5"></i>
                         <span>Reportes</span>
                     </a>
@@ -79,15 +177,16 @@
         </nav>
 
         <div class="absolute bottom-0 w-full p-4 border-t border-blue-700">
-            <div class="flex items-center gap-3">
+            <button onclick="showView('configuracion', this)" data-view="configuracion" class="nav-item w-full flex items-center gap-3 p-3 rounded-lg hover:bg-blue-700 transition-colors">
                 <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
                     <i class="fas fa-user"></i>
                 </div>
-                <div class="flex-1">
-                    <p class="text-sm font-semibold">Admin</p>
+                <div class="flex-1 text-left">
+                    <p class="text-sm font-semibold" id="user-name-sidebar">Admin</p>
                     <p class="text-xs text-blue-200">Administrador</p>
                 </div>
-            </div>
+                <i class="fas fa-cog"></i>
+            </button>
         </div>
     </aside>
 
@@ -1319,24 +1418,540 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Configuración View -->
+            <div id="view-configuracion" class="view-content hidden">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Header de configuración -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                                <span id="user-avatar-initial">A</span>
+                            </div>
+                            <div class="flex-1">
+                                <h2 class="text-2xl font-bold text-gray-800" id="user-full-name">Administrador del Sistema</h2>
+                                <p class="text-gray-600 mt-1" id="user-email">admin@tamivar.com</p>
+                                <div class="flex gap-2 mt-3">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Administrador</span>
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Activo</span>
+                                </div>
+                            </div>
+                            <button onclick="handleLogout()" class="px-6 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors font-semibold">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabs de configuración -->
+                    <div class="mb-6">
+                        <div class="flex gap-2 border-b border-gray-200">
+                            <button onclick="showConfigTab('perfil', this)" class="config-tab px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors">
+                                <i class="fas fa-user mr-2"></i>Perfil
+                            </button>
+                            <button onclick="showConfigTab('seguridad', this)" class="config-tab px-6 py-3 font-semibold text-gray-600 hover:text-blue-600 transition-colors">
+                                <i class="fas fa-shield-alt mr-2"></i>Seguridad
+                            </button>
+                            <button onclick="showConfigTab('preferencias', this)" class="config-tab px-6 py-3 font-semibold text-gray-600 hover:text-blue-600 transition-colors">
+                                <i class="fas fa-sliders-h mr-2"></i>Preferencias
+                            </button>
+                            <button onclick="showConfigTab('notificaciones', this)" class="config-tab px-6 py-3 font-semibold text-gray-600 hover:text-blue-600 transition-colors">
+                                <i class="fas fa-bell mr-2"></i>Notificaciones
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Perfil -->
+                    <div id="config-perfil" class="config-content">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Información Personal -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-id-card text-blue-600"></i>
+                                    Información Personal
+                                </h3>
+                                <form class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre Completo</label>
+                                        <input type="text" value="Administrador del Sistema" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
+                                        <input type="email" value="admin@tamivar.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+                                        <input type="tel" value="+52 123 456 7890" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Cargo</label>
+                                        <input type="text" value="Administrador General" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                        <i class="fas fa-save mr-2"></i>Guardar Cambios
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Foto de Perfil -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-camera text-blue-600"></i>
+                                    Foto de Perfil
+                                </h3>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-40 h-40 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-5xl font-bold shadow-lg mb-4">
+                                        A
+                                    </div>
+                                    <button class="px-6 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors font-semibold mb-2">
+                                        <i class="fas fa-upload mr-2"></i>Cambiar Foto
+                                    </button>
+                                    <button class="px-6 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-semibold">
+                                        <i class="fas fa-trash mr-2"></i>Eliminar Foto
+                                    </button>
+                                    <p class="text-xs text-gray-500 mt-4 text-center">
+                                        Formatos permitidos: JPG, PNG<br>Tamaño máximo: 2MB
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Información de la Empresa -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-building text-blue-600"></i>
+                                    Información de la Empresa
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre de la Empresa</label>
+                                        <input type="text" value="Tamivar S.A. de C.V." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">RFC</label>
+                                        <input type="text" value="TAM123456XXX" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Dirección</label>
+                                        <input type="text" value="Av. Principal #123, Col. Centro" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Ciudad</label>
+                                        <input type="text" value="Ciudad de México" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Seguridad -->
+                    <div id="config-seguridad" class="config-content hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Cambiar Contraseña -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-key text-blue-600"></i>
+                                    Cambiar Contraseña
+                                </h3>
+                                <form class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña Actual</label>
+                                        <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingresa tu contraseña actual">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Nueva Contraseña</label>
+                                        <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingresa tu nueva contraseña">
+                                        <div class="mt-2 space-y-1">
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <i class="fas fa-check text-green-600"></i>
+                                                <span class="text-gray-600">Mínimo 8 caracteres</span>
+                                            </div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <i class="fas fa-times text-gray-400"></i>
+                                                <span class="text-gray-600">Al menos una letra mayúscula</span>
+                                            </div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <i class="fas fa-times text-gray-400"></i>
+                                                <span class="text-gray-600">Al menos un número</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Nueva Contraseña</label>
+                                        <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Confirma tu nueva contraseña">
+                                    </div>
+                                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                        <i class="fas fa-lock mr-2"></i>Actualizar Contraseña
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Autenticación de Dos Factores -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-mobile-alt text-blue-600"></i>
+                                    Autenticación de Dos Factores
+                                </h3>
+                                <div class="mb-4">
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg mb-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-shield-alt text-green-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800">Estado: Desactivado</p>
+                                                <p class="text-xs text-gray-600">Mayor seguridad para tu cuenta</p>
+                                            </div>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                        </label>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-4">
+                                        Agrega una capa adicional de seguridad a tu cuenta requiriendo un código de verificación además de tu contraseña.
+                                    </p>
+                                    <button class="w-full px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-semibold">
+                                        <i class="fas fa-qrcode mr-2"></i>Configurar 2FA
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Sesiones Activas -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-laptop text-blue-600"></i>
+                                    Sesiones Activas
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-desktop text-green-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800">Windows • Chrome</p>
+                                                <p class="text-xs text-gray-600">Ciudad de México, México • Activa ahora</p>
+                                            </div>
+                                        </div>
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Actual</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-mobile-alt text-gray-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800">iPhone • Safari</p>
+                                                <p class="text-xs text-gray-600">Ciudad de México, México • Hace 2 horas</p>
+                                            </div>
+                                        </div>
+                                        <button class="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-semibold text-sm">
+                                            Cerrar
+                                        </button>
+                                    </div>
+                                </div>
+                                <button class="w-full mt-4 px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-semibold">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Cerrar todas las sesiones
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Preferencias -->
+                    <div id="config-preferencias" class="config-content hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Apariencia -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-palette text-blue-600"></i>
+                                    Apariencia
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Tema</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>Claro</option>
+                                            <option>Oscuro</option>
+                                            <option>Automático</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Tamaño de Fuente</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>Pequeño</option>
+                                            <option>Mediano</option>
+                                            <option>Grande</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Idioma</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>Español</option>
+                                            <option>English</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Región y Formato -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-globe text-blue-600"></i>
+                                    Región y Formato
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Zona Horaria</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>Ciudad de México (GMT-6)</option>
+                                            <option>Monterrey (GMT-6)</option>
+                                            <option>Cancún (GMT-5)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Formato de Fecha</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>DD/MM/YYYY</option>
+                                            <option>MM/DD/YYYY</option>
+                                            <option>YYYY-MM-DD</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Moneda</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>MXN (Pesos Mexicanos)</option>
+                                            <option>USD (Dólares)</option>
+                                            <option>EUR (Euros)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Opciones de Dashboard -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-chart-line text-blue-600"></i>
+                                    Opciones de Dashboard
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Mostrar Gráficos Animados</span>
+                                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Actualización Automática</span>
+                                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Modo Compacto</span>
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Sonidos del Sistema</span>
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                </div>
+                                <button class="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                    <i class="fas fa-save mr-2"></i>Guardar Preferencias
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Notificaciones -->
+                    <div id="config-notificaciones" class="config-content hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Notificaciones por Correo -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                    Notificaciones por Correo
+                                </h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Nuevas Facturas</span>
+                                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Pagos Pendientes</span>
+                                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Bajo Stock de Materiales</span>
+                                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Actualizaciones del Sistema</span>
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Notificaciones Push -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-bell text-blue-600"></i>
+                                    Notificaciones Push
+                                </h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Alertas de Gastos</span>
+                                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Proyectos Completados</span>
+                                        <input type="checkbox" checked class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Mensajes del Sistema</span>
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                        <span class="text-gray-700">Reportes Generados</span>
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Frecuencia de Reportes -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-2">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-calendar-alt text-blue-600"></i>
+                                    Frecuencia de Reportes Automáticos
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Reporte de Gastos</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>Diario</option>
+                                            <option selected>Semanal</option>
+                                            <option>Mensual</option>
+                                            <option>Nunca</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Reporte de Inventario</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>Diario</option>
+                                            <option>Semanal</option>
+                                            <option selected>Mensual</option>
+                                            <option>Nunca</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Reporte de Proyectos</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                            <option>Diario</option>
+                                            <option selected>Semanal</option>
+                                            <option>Mensual</option>
+                                            <option>Nunca</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                    <i class="fas fa-save mr-2"></i>Guardar Configuración
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+    </div>
 
     <script>
-        function showView(viewName) {
+        // Login functionality
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simulación de autenticación
+            if (username && password) {
+                // Ocultar login y mostrar app
+                document.getElementById('login-view').classList.remove('active');
+                document.getElementById('main-app').classList.add('active');
+                showView('dashboard');
+                
+                // Simular datos del usuario
+                const userData = {
+                    fullName: username === 'admin' ? 'Administrador del Sistema' : username,
+                    email: username === 'admin' ? 'admin@tamivar.com' : `${username}@tamivar.com`,
+                    initial: username.charAt(0).toUpperCase()
+                };
+                
+                // Actualizar información del usuario en la UI
+                if (document.getElementById('user-full-name')) {
+                    document.getElementById('user-full-name').textContent = userData.fullName;
+                }
+                if (document.getElementById('user-email')) {
+                    document.getElementById('user-email').textContent = userData.email;
+                }
+                if (document.getElementById('user-avatar-initial')) {
+                    document.getElementById('user-avatar-initial').textContent = userData.initial;
+                }
+                if (document.getElementById('user-name-sidebar')) {
+                    document.getElementById('user-name-sidebar').textContent = userData.fullName;
+                }
+                
+                // Mostrar mensaje de bienvenida
+                console.log('Login exitoso para:', userData.fullName);
+            }
+        }
+
+        // Logout functionality
+        function handleLogout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                // Ocultar app y mostrar login
+                document.getElementById('main-app').classList.remove('active');
+                document.getElementById('login-view').classList.add('active');
+                
+                // Limpiar formulario de login
+                document.getElementById('login-form').reset();
+                
+                console.log('Sesión cerrada');
+            }
+        }
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('password-toggle-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Show different views
+        function showView(viewName, triggerElement) {
             // Hide all views
             document.querySelectorAll('.view-content').forEach(view => {
                 view.classList.add('hidden');
             });
             
             // Show selected view
-            document.getElementById('view-' + viewName).classList.remove('hidden');
+            const activeView = document.getElementById('view-' + viewName);
+            if (activeView) {
+                activeView.classList.remove('hidden');
+            }
             
             // Update active menu item
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('bg-blue-700');
             });
-            event.currentTarget.classList.add('bg-blue-700');
+            const navTarget = (triggerElement && triggerElement.classList.contains('nav-item'))
+                ? triggerElement
+                : document.querySelector(`.nav-item[data-view="${viewName}"]`);
+            if (navTarget) {
+                navTarget.classList.add('bg-blue-700');
+            }
             
             // Update page title
             const titles = {
@@ -1346,17 +1961,49 @@
                 'materiales': { title: 'Inventario de Materiales', subtitle: 'Gestión de materiales y existencias' },
                 'proyectos': { title: 'Proyectos y Obras', subtitle: 'Gestión de proyectos activos' },
                 'proveedores': { title: 'Proveedores', subtitle: 'Directorio de proveedores' },
-                'reportes': { title: 'Reportes', subtitle: 'Generación y descarga de reportes' }
+                'reportes': { title: 'Reportes', subtitle: 'Generación y descarga de reportes' },
+                'configuracion': { title: 'Configuración de Cuenta', subtitle: 'Gestiona tu perfil y preferencias' }
             };
             
-            document.getElementById('page-title').textContent = titles[viewName].title;
-            document.getElementById('page-subtitle').textContent = titles[viewName].subtitle;
+            if (titles[viewName]) {
+                document.getElementById('page-title').textContent = titles[viewName].title;
+                document.getElementById('page-subtitle').textContent = titles[viewName].subtitle;
+            }
+        }
+
+        // Show configuration tabs
+        function showConfigTab(tabName, triggerElement) {
+            // Hide all config tabs
+            document.querySelectorAll('.config-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            const configSection = document.getElementById('config-' + tabName);
+            if (configSection) {
+                configSection.classList.remove('hidden');
+            }
+            
+            // Update active tab button
+            document.querySelectorAll('.config-tab').forEach(tab => {
+                tab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                tab.classList.add('text-gray-600');
+            });
+            
+            if (triggerElement) {
+                triggerElement.classList.remove('text-gray-600');
+                triggerElement.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+            }
         }
 
         // Initialize with dashboard view
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.nav-item').classList.add('bg-blue-700');
+            const firstNavItem = document.querySelector('.nav-item');
+            if (firstNavItem) {
+                firstNavItem.classList.add('bg-blue-700');
+            }
         });
     </script>
 </body>
 </html>
+
