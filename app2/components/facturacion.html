@@ -1,0 +1,85 @@
+<div class="space-y-6">
+    <!-- Controles -->
+    <div class="flex justify-between items-center">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+            <i class="fas fa-plus"></i>
+            Nueva Factura
+        </button>
+        <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option>Todos los estados</option>
+            <option>Pendiente</option>
+            <option>Emitida</option>
+            <option>Pagada</option>
+            <option>Cancelada</option>
+        </select>
+    </div>
+
+    <!-- Tabla de facturas -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="w-full">
+            <thead class="bg-gray-100 border-b">
+                <tr>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Folio</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Tipo</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Cliente/Proveedor</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Fecha</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Vencimiento</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Total</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Estado</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y">
+                <tr class="hover:bg-gray-50 border-l-4 border-red-500">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">A-001234</td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">Por Pagar</span>
+                    </td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Materiales Sureste S.A.</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">2025-09-25</td>
+                    <td class="px-6 py-3 text-sm text-red-600 font-semibold">2025-09-29 <i class="fas fa-exclamation-circle ml-1"></i></td>
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-800">$25,000</td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Pendiente</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">B-000567</td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Por Cobrar</span>
+                    </td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Cliente Directo</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">2025-09-20</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">2025-10-05</td>
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-800">$580,000</td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">Emitida</span>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">C-002345</td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">Por Pagar</span>
+                    </td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Ferretería La Construcción</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">2025-09-15</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">2025-09-30</td>
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-800">$8,500</td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Pagada</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Alertas de vencimiento -->
+    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+        <div class="flex items-start gap-3">
+            <i class="fas fa-exclamation-circle text-red-600 text-xl mt-1"></i>
+            <div>
+                <h4 class="font-semibold text-red-800">Factura Próxima a Vencer</h4>
+                <p class="text-red-700 text-sm mt-1">La factura A-001234 vence en 1 día. Se requiere pago inmediato.</p>
+            </div>
+        </div>
+    </div>
+</div>

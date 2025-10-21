@@ -1,0 +1,208 @@
+<div class="space-y-6">
+    <!-- Resumen de proveedores -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
+            <p class="text-gray-600 text-sm">Total Proveedores</p>
+            <p class="text-2xl font-bold text-gray-800">12</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500">
+            <p class="text-gray-600 text-sm">Activos</p>
+            <p class="text-2xl font-bold text-green-600">10</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-yellow-500">
+            <p class="text-gray-600 text-sm">Por Calificar</p>
+            <p class="text-2xl font-bold text-yellow-600">2</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-red-500">
+            <p class="text-gray-600 text-sm">Suspendidos</p>
+            <p class="text-2xl font-bold text-red-600">0</p>
+        </div>
+    </div>
+
+    <!-- Controles -->
+    <div class="flex justify-between items-center">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+            <i class="fas fa-plus"></i>
+            Nuevo Proveedor
+        </button>
+        <div class="flex gap-2">
+            <input type="search" placeholder="Buscar proveedor..." class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-64">
+            <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                <option>Todos</option>
+                <option>Activos</option>
+                <option>Inactivos</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Tabla de proveedores -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="w-full">
+            <thead class="bg-gray-100 border-b">
+                <tr>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Nombre</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Contacto</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Teléfono</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Email</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Especialidad</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Calificación</th>
+                    <th class="text-left px-6 py-3 text-sm font-semibold text-gray-700">Estado</th>
+                    <th class="text-center px-6 py-3 text-sm font-semibold text-gray-700">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y">
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">Cemexco S.A.</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Lic. Carlos Ramírez</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">+503-2123-4567</td>
+                    <td class="px-6 py-3 text-sm text-blue-600">carlos@cemexco.sv</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Cementantes</td>
+                    <td class="px-6 py-3 text-sm">
+                        <div class="flex items-center gap-1">
+                            <span class="text-yellow-400">★★★★★</span>
+                            <span class="text-gray-600">5.0</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Activo</span>
+                    </td>
+                    <td class="px-6 py-3 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm">Ver</button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">Acerería Central</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Ing. Felipe González</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">+503-2234-5678</td>
+                    <td class="px-6 py-3 text-sm text-blue-600">fgonzalez@acereal.sv</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Acero y Varilla</td>
+                    <td class="px-6 py-3 text-sm">
+                        <div class="flex items-center gap-1">
+                            <span class="text-yellow-400">★★★★☆</span>
+                            <span class="text-gray-600">4.5</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Activo</span>
+                    </td>
+                    <td class="px-6 py-3 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm">Ver</button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">Bloquera Los Andes</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Sr. Roberto Mendoza</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">+503-2345-6789</td>
+                    <td class="px-6 py-3 text-sm text-blue-600">rmendoza@bloquera.sv</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Block y Mampostería</td>
+                    <td class="px-6 py-3 text-sm">
+                        <div class="flex items-center gap-1">
+                            <span class="text-yellow-400">★★★★☆</span>
+                            <span class="text-gray-600">4.3</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Activo</span>
+                    </td>
+                    <td class="px-6 py-3 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm">Ver</button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">Arenera Metropolitana</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Lic. María Cortez</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">+503-2456-7890</td>
+                    <td class="px-6 py-3 text-sm text-blue-600">mcortez@arenera.sv</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Agregados</td>
+                    <td class="px-6 py-3 text-sm">
+                        <div class="flex items-center gap-1">
+                            <span class="text-yellow-400">★★★☆☆</span>
+                            <span class="text-gray-600">3.8</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Por Calificar</span>
+                    </td>
+                    <td class="px-6 py-3 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm">Ver</button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">Distribuidora Industrial Plus</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Ing. Jorge López</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">+503-2567-8901</td>
+                    <td class="px-6 py-3 text-sm text-blue-600">jlopez@distrindplus.sv</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Herramientas</td>
+                    <td class="px-6 py-3 text-sm">
+                        <div class="flex items-center gap-1">
+                            <span class="text-yellow-400">★★★★☆</span>
+                            <span class="text-gray-600">4.6</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Activo</span>
+                    </td>
+                    <td class="px-6 py-3 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm">Ver</button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 text-sm font-semibold text-gray-700">Pinturas y Acabados S.A.</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Sr. David Flores</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">+503-2678-9012</td>
+                    <td class="px-6 py-3 text-sm text-blue-600">dflores@pinturasa.sv</td>
+                    <td class="px-6 py-3 text-sm text-gray-700">Acabados</td>
+                    <td class="px-6 py-3 text-sm">
+                        <div class="flex items-center gap-1">
+                            <span class="text-yellow-400">★★★★☆</span>
+                            <span class="text-gray-600">4.7</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-3 text-sm">
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Por Calificar</span>
+                    </td>
+                    <td class="px-6 py-3 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm">Ver</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Tabla adicional con más proveedores -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="font-bold text-gray-800 mb-4">Otros Proveedores (6 más)</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border rounded-lg p-4">
+                <h4 class="font-semibold text-gray-700">Servicios Técnicos Construcción</h4>
+                <p class="text-sm text-gray-600 mt-2">Especialidad: Consultoría y Supervisión</p>
+                <p class="text-sm text-gray-600">Estado: Activo</p>
+            </div>
+            <div class="border rounded-lg p-4">
+                <h4 class="font-semibold text-gray-700">Equipos Pesados Rentals</h4>
+                <p class="text-sm text-gray-600 mt-2">Especialidad: Alquiler de Maquinaria</p>
+                <p class="text-sm text-gray-600">Estado: Activo</p>
+            </div>
+            <div class="border rounded-lg p-4">
+                <h4 class="font-semibold text-gray-700">Transportes Rápido</h4>
+                <p class="text-sm text-gray-600 mt-2">Especialidad: Fletes y Transporte</p>
+                <p class="text-sm text-gray-600">Estado: Activo</p>
+            </div>
+            <div class="border rounded-lg p-4">
+                <h4 class="font-semibold text-gray-700">Laboratorio de Ensayos</h4>
+                <p class="text-sm text-gray-600 mt-2">Especialidad: Pruebas de Materiales</p>
+                <p class="text-sm text-gray-600">Estado: Activo</p>
+            </div>
+            <div class="border rounded-lg p-4">
+                <h4 class="font-semibold text-gray-700">Señalética y Seguridad</h4>
+                <p class="text-sm text-gray-600 mt-2">Especialidad: Seguridad en Obra</p>
+                <p class="text-sm text-gray-600">Estado: Activo</p>
+            </div>
+            <div class="border rounded-lg p-4">
+                <h4 class="font-semibold text-gray-700">Seguros Patrimoniales</h4>
+                <p class="text-sm text-gray-600 mt-2">Especialidad: Cobertura de Proyectos</p>
+                <p class="text-sm text-gray-600">Estado: Activo</p>
+            </div>
+        </div>
+    </div>
+</div>

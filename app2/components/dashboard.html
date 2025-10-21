@@ -1,0 +1,148 @@
+<div class="space-y-6">
+    <!-- Métricas principales -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm">Gastos del Mes</p>
+                    <p class="text-2xl font-bold text-gray-800">$45,320</p>
+                    <p class="text-green-600 text-xs mt-2">↑ 12% vs mes anterior</p>
+                </div>
+                <div class="text-4xl text-blue-200">
+                    <i class="fas fa-receipt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm">Gastos Pendientes</p>
+                    <p class="text-2xl font-bold text-gray-800">8</p>
+                    <p class="text-yellow-600 text-xs mt-2">Requiere aprobación</p>
+                </div>
+                <div class="text-4xl text-yellow-200">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm">Facturas Vencidas</p>
+                    <p class="text-2xl font-bold text-gray-800">3</p>
+                    <p class="text-red-600 text-xs mt-2">Acción inmediata</p>
+                </div>
+                <div class="text-4xl text-red-200">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm">Stock Bajo</p>
+                    <p class="text-2xl font-bold text-gray-800">5</p>
+                    <p class="text-green-600 text-xs mt-2">Materiales a reabastecer</p>
+                </div>
+                <div class="text-4xl text-green-200">
+                    <i class="fas fa-box"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos y resumen -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Gastos por obra -->
+        <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Gastos por Obra</h3>
+            <div class="space-y-3">
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-700">Casa Residencial</span>
+                        <span class="text-gray-600">$28,500</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 63%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-700">Departamentos Plaza</span>
+                        <span class="text-gray-600">$12,820</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 28%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-700">Oficinas Corporativas</span>
+                        <span class="text-gray-600">$4,000</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 9%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alertas -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Alertas del Sistema</h3>
+            <div class="space-y-3">
+                <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded">
+                    <p class="text-red-700 text-sm font-semibold">Factura vencida</p>
+                    <p class="text-red-600 text-xs">F-001234 vence hoy</p>
+                </div>
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded">
+                    <p class="text-yellow-700 text-sm font-semibold">Stock bajo</p>
+                    <p class="text-yellow-600 text-xs">Cemento Portland 50kg</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+                    <p class="text-blue-700 text-sm font-semibold">Gasto pendiente</p>
+                    <p class="text-blue-600 text-xs">8 gastos en revisión</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Obras activas -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Obras Activas</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="font-semibold text-gray-800">Casa Residencial</h4>
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Activa</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-3">Código: CASA-001</p>
+                <p class="text-sm text-gray-700">Presupuesto: <span class="font-semibold">$2,500,000</span></p>
+                <p class="text-sm text-gray-700">Gastado: <span class="font-semibold text-blue-600">$1,285,000 (51%)</span></p>
+            </div>
+
+            <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="font-semibold text-gray-800">Departamentos Plaza</h4>
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Activa</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-3">Código: DEPTO-002</p>
+                <p class="text-sm text-gray-700">Presupuesto: <span class="font-semibold">$4,200,000</span></p>
+                <p class="text-sm text-gray-700">Gastado: <span class="font-semibold text-blue-600">$2,150,000 (51%)</span></p>
+            </div>
+
+            <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="font-semibold text-gray-800">Oficinas Corporativas</h4>
+                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Cerrada</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-3">Código: OFICINA-003</p>
+                <p class="text-sm text-gray-700">Presupuesto: <span class="font-semibold">$1,800,000</span></p>
+                <p class="text-sm text-gray-700">Gastado: <span class="font-semibold text-blue-600">$1,800,000 (100%)</span></p>
+            </div>
+        </div>
+    </div>
+</div>

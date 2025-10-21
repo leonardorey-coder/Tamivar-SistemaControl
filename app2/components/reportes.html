@@ -1,0 +1,231 @@
+<div class="space-y-6">
+    <!-- Header con filtros -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-gray-800">Centro de Reportes</h3>
+            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                <i class="fas fa-download"></i>
+                Descargar Todos
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Período</label>
+                <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>Este Mes</option>
+                    <option>Últimos 3 Meses</option>
+                    <option>Últimos 6 Meses</option>
+                    <option>Este Año</option>
+                    <option>Personalizado</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Proyecto</label>
+                <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>Todos</option>
+                    <option>Edificio Residencial</option>
+                    <option>Carretera Panamericana</option>
+                    <option>Centro Comercial</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Formato</label>
+                <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>PDF</option>
+                    <option>Excel</option>
+                    <option>CSV</option>
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Generar Reporte
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resumen de reportes disponibles -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Reporte 1: Resumen de Gastos -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+                <h3 class="text-white font-bold text-lg">Resumen de Gastos</h3>
+                <p class="text-blue-100 text-sm">Desglose mensual de gastos</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="text-center py-4">
+                    <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-chart-pie text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Última actualización</p>
+                    <p class="font-semibold text-gray-800">20 de octubre, 2024</p>
+                </div>
+                <p class="text-gray-700 text-sm">Incluye desglose por categoría, proyecto y proveedor. Análisis de tendencias mensuales.</p>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-eye"></i>
+                    Ver Reporte
+                </button>
+            </div>
+        </div>
+
+        <!-- Reporte 2: Facturación y Pagos -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 px-6 py-4">
+                <h3 class="text-white font-bold text-lg">Facturación y Pagos</h3>
+                <p class="text-purple-100 text-sm">Estado de facturas y cobranza</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="text-center py-4">
+                    <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-file-invoice-dollar text-2xl text-purple-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Última actualización</p>
+                    <p class="font-semibold text-gray-800">20 de octubre, 2024</p>
+                </div>
+                <p class="text-gray-700 text-sm">Facturas pendientes, pagadas, vencidas y por cobrar. Análisis de cartera.</p>
+                <button class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-eye"></i>
+                    Ver Reporte
+                </button>
+            </div>
+        </div>
+
+        <!-- Reporte 3: Inventario de Materiales -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4">
+                <h3 class="text-white font-bold text-lg">Inventario de Materiales</h3>
+                <p class="text-orange-100 text-sm">Estado actual del stock</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="text-center py-4">
+                    <div class="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-boxes text-2xl text-orange-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Última actualización</p>
+                    <p class="font-semibold text-gray-800">20 de octubre, 2024</p>
+                </div>
+                <p class="text-gray-700 text-sm">Disponibilidad de stock, materiales críticos y movimientos de entrada/salida.</p>
+                <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-eye"></i>
+                    Ver Reporte
+                </button>
+            </div>
+        </div>
+
+        <!-- Reporte 4: Seguimiento de Proyectos -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="bg-gradient-to-r from-green-500 to-green-600 px-6 py-4">
+                <h3 class="text-white font-bold text-lg">Seguimiento de Proyectos</h3>
+                <p class="text-green-100 text-sm">Avance y presupuesto de obras</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="text-center py-4">
+                    <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-tasks text-2xl text-green-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Última actualización</p>
+                    <p class="font-semibold text-gray-800">20 de octubre, 2024</p>
+                </div>
+                <p class="text-gray-700 text-sm">Porcentaje de avance, presupuesto utilizado y proyecciones de finalización.</p>
+                <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-eye"></i>
+                    Ver Reporte
+                </button>
+            </div>
+        </div>
+
+        <!-- Reporte 5: Desempeño de Proveedores -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
+                <h3 class="text-white font-bold text-lg">Desempeño de Proveedores</h3>
+                <p class="text-red-100 text-sm">Evaluación y calificación</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="text-center py-4">
+                    <div class="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-star text-2xl text-red-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Última actualización</p>
+                    <p class="font-semibold text-gray-800">20 de octubre, 2024</p>
+                </div>
+                <p class="text-gray-700 text-sm">Calificaciones, entregas a tiempo, cumplimiento de especificaciones y precios.</p>
+                <button class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-eye"></i>
+                    Ver Reporte
+                </button>
+            </div>
+        </div>
+
+        <!-- Reporte 6: Análisis Financiero -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-4">
+                <h3 class="text-white font-bold text-lg">Análisis Financiero</h3>
+                <p class="text-indigo-100 text-sm">Indicadores de rentabilidad</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="text-center py-4">
+                    <div class="w-16 h-16 mx-auto bg-indigo-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-chart-line text-2xl text-indigo-600"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Última actualización</p>
+                    <p class="font-semibold text-gray-800">20 de octubre, 2024</p>
+                </div>
+                <p class="text-gray-700 text-sm">Margen de utilidad, ROI por proyecto, cash flow y proyecciones.</p>
+                <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-eye"></i>
+                    Ver Reporte
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reportes recientes -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Reportes Recientes Generados</h3>
+        <div class="space-y-3">
+            <div class="flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50">
+                <div>
+                    <p class="font-semibold text-gray-800">Resumen de Gastos - Octubre 2024</p>
+                    <p class="text-sm text-gray-600">Generado: 20 Oct, 14:30</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="text-blue-600 hover:text-blue-800 text-sm">Descargar</button>
+                    <button class="text-red-600 hover:text-red-800 text-sm">Eliminar</button>
+                </div>
+            </div>
+            <div class="flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50">
+                <div>
+                    <p class="font-semibold text-gray-800">Facturación y Pagos - Octubre 2024</p>
+                    <p class="text-sm text-gray-600">Generado: 18 Oct, 09:15</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="text-blue-600 hover:text-blue-800 text-sm">Descargar</button>
+                    <button class="text-red-600 hover:text-red-800 text-sm">Eliminar</button>
+                </div>
+            </div>
+            <div class="flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50">
+                <div>
+                    <p class="font-semibold text-gray-800">Seguimiento de Proyectos - Q4 2024</p>
+                    <p class="text-sm text-gray-600">Generado: 15 Oct, 16:45</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="text-blue-600 hover:text-blue-800 text-sm">Descargar</button>
+                    <button class="text-red-600 hover:text-red-800 text-sm">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
