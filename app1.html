@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamivar - Sistema de Control Empresarial</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -22,6 +22,18 @@
     <style>
         .app-container { display: none; }
         .app-container.active { display: block; }
+        .modal { display: none; }
+        .modal.active { display: flex; }
+        .modal-backdrop { animation: fadeIn 0.2s; }
+        .modal-content { animation: slideIn 0.3s; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
@@ -204,7 +216,7 @@
                         <i class="fas fa-bell text-xl"></i>
                         <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
-                    <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <button onclick="openModal('modal-nuevo-gasto')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>Nueva Acción
                     </button>
                 </div>
@@ -432,10 +444,10 @@
                         <option>Aprobado</option>
                         <option>Rechazado</option>
                     </select>
-                    <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <button onclick="openModal('modal-importar-excel')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         <i class="fas fa-file-upload mr-2"></i>Importar Excel
                     </button>
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <button onclick="openModal('modal-nuevo-gasto')" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>Nuevo Gasto
                     </button>
                 </div>
@@ -465,12 +477,29 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Aprobado</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-800">
-                                            <i class="fas fa-paperclip"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'gasto-1')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-gasto-1" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button onclick="openModal('modal-nuevo-gasto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-green-600 w-4"></i>Editar
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-paperclip text-gray-600 w-4"></i>Ver comprobante
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-download text-purple-600 w-4"></i>Descargar PDF
+                                                </button>
+                                                <hr class="my-1">
+                                                <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                                    <i class="fas fa-trash w-4"></i>Eliminar
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
@@ -483,12 +512,29 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 rounded-full">En revisión</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-800">
-                                            <i class="fas fa-paperclip"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'gasto-2')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-gasto-2" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button onclick="openModal('modal-nuevo-gasto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-green-600 w-4"></i>Editar
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-check text-green-600 w-4"></i>Aprobar
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-times text-red-600 w-4"></i>Rechazar
+                                                </button>
+                                                <hr class="my-1">
+                                                <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                                    <i class="fas fa-trash w-4"></i>Eliminar
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
@@ -501,12 +547,26 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Aprobado</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-800">
-                                            <i class="fas fa-paperclip"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'gasto-3')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-gasto-3" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button onclick="openModal('modal-nuevo-gasto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-green-600 w-4"></i>Editar
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-download text-purple-600 w-4"></i>Descargar PDF
+                                                </button>
+                                                <hr class="my-1">
+                                                <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                                    <i class="fas fa-trash w-4"></i>Eliminar
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
@@ -519,12 +579,26 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-700 rounded-full">Borrador</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-800">
-                                            <i class="fas fa-paperclip"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'gasto-4')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-gasto-4" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button onclick="openModal('modal-nuevo-gasto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-green-600 w-4"></i>Editar
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-paper-plane text-blue-600 w-4"></i>Enviar a revisión
+                                                </button>
+                                                <hr class="my-1">
+                                                <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                                    <i class="fas fa-trash w-4"></i>Eliminar
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -580,10 +654,10 @@
                         <option>Pagada</option>
                         <option>Cancelada</option>
                     </select>
-                    <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <button onclick="openModal('modal-importar-excel')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         <i class="fas fa-file-upload mr-2"></i>Importar Excel
                     </button>
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <button onclick="openModal('modal-nueva-factura')" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>Nueva Factura
                     </button>
                 </div>
@@ -616,12 +690,32 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Emitida</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-800">
-                                            <i class="fas fa-download"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'factura-1')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-factura-1" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button onclick="openModal('modal-nueva-factura')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-green-600 w-4"></i>Editar
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-file-pdf text-red-600 w-4"></i>Descargar PDF
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-file-code text-blue-600 w-4"></i>Descargar XML
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-envelope text-purple-600 w-4"></i>Enviar por email
+                                                </button>
+                                                <hr class="my-1">
+                                                <button class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                                    <i class="fas fa-ban w-4"></i>Cancelar factura
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50 bg-amber-50">
@@ -640,12 +734,29 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 rounded-full">Pendiente</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-800">
-                                            <i class="fas fa-download"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'factura-2')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-factura-2" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-check text-green-600 w-4"></i>Marcar como pagada
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-bell text-amber-600 w-4"></i>Enviar recordatorio
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-file-pdf text-red-600 w-4"></i>Descargar PDF
+                                                </button>
+                                                <hr class="my-1">
+                                                <button class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                                    <i class="fas fa-ban w-4"></i>Cancelar factura
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
@@ -661,12 +772,25 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full">Pagada</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-800">
-                                            <i class="fas fa-download"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'factura-3')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-factura-3" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-file-pdf text-red-600 w-4"></i>Descargar PDF
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-file-code text-blue-600 w-4"></i>Descargar XML
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-receipt text-purple-600 w-4"></i>Ver comprobante de pago
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -733,13 +857,13 @@
                         <option>Madera</option>
                         <option>Herramientas</option>
                     </select>
-                    <button class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <button onclick="openModal('modal-entrada-material')" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         <i class="fas fa-arrow-down mr-2"></i>Entrada
                     </button>
                     <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         <i class="fas fa-file-upload mr-2"></i>Importar Excel
                     </button>
-                    <button class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                    <button onclick="openModal('modal-salida-material')" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
                         <i class="fas fa-arrow-up mr-2"></i>Salida
                     </button>
                 </div>
@@ -771,9 +895,28 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">En stock</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-history"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'material-1')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-material-1" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-history text-purple-600 w-4"></i>Historial movimientos
+                                                </button>
+                                                <button onclick="openModal('modal-entrada-material')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-arrow-down text-green-600 w-4"></i>Registrar entrada
+                                                </button>
+                                                <button onclick="openModal('modal-salida-material')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-arrow-up text-red-600 w-4"></i>Registrar salida
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-gray-600 w-4"></i>Editar material
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
@@ -787,9 +930,28 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">En stock</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-history"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'material-2')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-material-2" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-history text-purple-600 w-4"></i>Historial movimientos
+                                                </button>
+                                                <button onclick="openModal('modal-entrada-material')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-arrow-down text-green-600 w-4"></i>Registrar entrada
+                                                </button>
+                                                <button onclick="openModal('modal-salida-material')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-arrow-up text-red-600 w-4"></i>Registrar salida
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-gray-600 w-4"></i>Editar material
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50 bg-amber-50">
@@ -806,9 +968,26 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 rounded-full">Bajo stock</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-history"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'material-3')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-material-3" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-entrada-material')" class="w-full text-left px-4 py-2 hover:bg-amber-50 flex items-center gap-2 text-sm text-amber-700 font-semibold">
+                                                    <i class="fas fa-arrow-down w-4"></i>¡Registrar entrada urgente!
+                                                </button>
+                                                <hr class="my-1">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-history text-purple-600 w-4"></i>Historial movimientos
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-bell text-amber-600 w-4"></i>Configurar alerta
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
@@ -822,9 +1001,28 @@
                                         <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">En stock</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <button class="text-blue-600 hover:text-blue-800 mr-3">
-                                            <i class="fas fa-history"></i>
-                                        </button>
+                                        <div class="relative inline-block">
+                                            <button onclick="toggleActionMenu(event, 'material-4')" class="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div id="action-menu-material-4" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                                <button onclick="openModal('modal-ver-detalles')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-eye text-blue-600 w-4"></i>Ver detalles
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-history text-purple-600 w-4"></i>Historial movimientos
+                                                </button>
+                                                <button onclick="openModal('modal-entrada-material')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-arrow-down text-green-600 w-4"></i>Registrar entrada
+                                                </button>
+                                                <button onclick="openModal('modal-salida-material')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-arrow-up text-red-600 w-4"></i>Registrar salida
+                                                </button>
+                                                <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                                    <i class="fas fa-edit text-gray-600 w-4"></i>Editar material
+                                                </button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -846,7 +1044,7 @@
                     <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         <i class="fas fa-file-upload mr-2"></i>Importar Excel
                     </button>
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <button onclick="openModal('modal-nuevo-proyecto')" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>Nuevo Proyecto
                     </button>
                 </div>
@@ -898,12 +1096,32 @@
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex gap-2">
-                            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                            <button onclick="openModal('modal-ver-detalles')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                 <i class="fas fa-eye mr-2"></i>Ver detalles
                             </button>
-                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            <div class="relative inline-block">
+                                <button onclick="toggleActionMenu(event, 'proyecto-1')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="action-menu-proyecto-1" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                    <button onclick="openModal('modal-nuevo-proyecto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-edit text-green-600 w-4"></i>Editar proyecto
+                                    </button>
+                                    <button onclick="openModal('modal-nuevo-gasto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-receipt text-blue-600 w-4"></i>Nuevo gasto
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-chart-bar text-purple-600 w-4"></i>Ver reportes
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-pause text-amber-600 w-4"></i>Pausar proyecto
+                                    </button>
+                                    <hr class="my-1">
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-check-circle text-green-600 w-4"></i>Marcar finalizado
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -953,12 +1171,32 @@
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex gap-2">
-                            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                            <button onclick="openModal('modal-ver-detalles')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                 <i class="fas fa-eye mr-2"></i>Ver detalles
                             </button>
-                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            <div class="relative inline-block">
+                                <button onclick="toggleActionMenu(event, 'proyecto-2')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="action-menu-proyecto-2" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                    <button onclick="openModal('modal-nuevo-proyecto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-edit text-green-600 w-4"></i>Editar proyecto
+                                    </button>
+                                    <button onclick="openModal('modal-nuevo-gasto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-receipt text-blue-600 w-4"></i>Nuevo gasto
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-chart-bar text-purple-600 w-4"></i>Ver reportes
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-pause text-amber-600 w-4"></i>Pausar proyecto
+                                    </button>
+                                    <hr class="my-1">
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-check-circle text-green-600 w-4"></i>Marcar finalizado
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1008,12 +1246,32 @@
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex gap-2">
-                            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                            <button onclick="openModal('modal-ver-detalles')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                 <i class="fas fa-eye mr-2"></i>Ver detalles
                             </button>
-                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            <div class="relative inline-block">
+                                <button onclick="toggleActionMenu(event, 'proyecto-3')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="action-menu-proyecto-3" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                    <button onclick="openModal('modal-nuevo-proyecto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-edit text-green-600 w-4"></i>Editar proyecto
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-amber-50 flex items-center gap-2 text-sm text-amber-700 font-semibold">
+                                        <i class="fas fa-play w-4"></i>Reanudar proyecto
+                                    </button>
+                                    <button onclick="openModal('modal-nuevo-gasto')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-receipt text-blue-600 w-4"></i>Nuevo gasto
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-chart-bar text-purple-600 w-4"></i>Ver reportes
+                                    </button>
+                                    <hr class="my-1">
+                                    <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                        <i class="fas fa-times-circle w-4"></i>Cancelar proyecto
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1032,7 +1290,7 @@
                     <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                         <i class="fas fa-file-upload mr-2"></i>Importar Excel
                     </button>
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <button onclick="openModal('modal-nuevo-proveedor')" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>Nuevo Proveedor
                     </button>
                 </div>
@@ -1065,12 +1323,35 @@
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex gap-2">
-                            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                            <button onclick="openModal('modal-ver-detalles')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                 <i class="fas fa-eye mr-2"></i>Ver
                             </button>
-                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            <div class="relative inline-block">
+                                <button onclick="toggleActionMenu(event, 'proveedor-1')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="action-menu-proveedor-1" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                    <button onclick="openModal('modal-nuevo-proveedor')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-edit text-green-600 w-4"></i>Editar proveedor
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-phone text-blue-600 w-4"></i>Llamar
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-envelope text-purple-600 w-4"></i>Enviar email
+                                    </button>
+                                    <button onclick="openModal('modal-nueva-factura')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-file-invoice text-amber-600 w-4"></i>Nueva orden compra
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-history text-blue-600 w-4"></i>Ver historial
+                                    </button>
+                                    <hr class="my-1">
+                                    <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                        <i class="fas fa-trash w-4"></i>Eliminar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1101,12 +1382,35 @@
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex gap-2">
-                            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                            <button onclick="openModal('modal-ver-detalles')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                 <i class="fas fa-eye mr-2"></i>Ver
                             </button>
-                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            <div class="relative inline-block">
+                                <button onclick="toggleActionMenu(event, 'proveedor-2')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="action-menu-proveedor-2" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                    <button onclick="openModal('modal-nuevo-proveedor')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-edit text-green-600 w-4"></i>Editar proveedor
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-phone text-blue-600 w-4"></i>Llamar
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-envelope text-purple-600 w-4"></i>Enviar email
+                                    </button>
+                                    <button onclick="openModal('modal-nueva-factura')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-file-invoice text-amber-600 w-4"></i>Nueva orden compra
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-history text-blue-600 w-4"></i>Ver historial
+                                    </button>
+                                    <hr class="my-1">
+                                    <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                        <i class="fas fa-trash w-4"></i>Eliminar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1137,12 +1441,35 @@
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex gap-2">
-                            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                            <button onclick="openModal('modal-ver-detalles')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                                 <i class="fas fa-eye mr-2"></i>Ver
                             </button>
-                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            <div class="relative inline-block">
+                                <button onclick="toggleActionMenu(event, 'proveedor-3')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="action-menu-proveedor-3" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                    <button onclick="openModal('modal-nuevo-proveedor')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-edit text-green-600 w-4"></i>Editar proveedor
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-phone text-blue-600 w-4"></i>Llamar
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-envelope text-purple-600 w-4"></i>Enviar email
+                                    </button>
+                                    <button onclick="openModal('modal-nueva-factura')" class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-file-invoice text-amber-600 w-4"></i>Nueva orden compra
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2 text-sm text-gray-700">
+                                        <i class="fas fa-history text-blue-600 w-4"></i>Ver historial
+                                    </button>
+                                    <hr class="my-1">
+                                    <button onclick="openModal('modal-confirmar-eliminar')" class="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-2 text-sm text-red-600">
+                                        <i class="fas fa-trash w-4"></i>Eliminar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1578,7 +1905,7 @@
                                         <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Nueva Contraseña</label>
                                         <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Confirma tu nueva contraseña">
                                     </div>
-                                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                    <button onclick="openModal('modal-cambiar-password')" type="button" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
                                         <i class="fas fa-lock mr-2"></i>Actualizar Contraseña
                                     </button>
                                 </form>
@@ -1609,7 +1936,7 @@
                                     <p class="text-sm text-gray-600 mb-4">
                                         Agrega una capa adicional de seguridad a tu cuenta requiriendo un código de verificación además de tu contraseña.
                                     </p>
-                                    <button class="w-full px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-semibold">
+                                    <button onclick="openModal('modal-configurar-2fa')" class="w-full px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-semibold">
                                         <i class="fas fa-qrcode mr-2"></i>Configurar 2FA
                                     </button>
                                 </div>
@@ -2003,7 +2330,697 @@
                 firstNavItem.classList.add('bg-blue-700');
             }
         });
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Action menu function
+        function toggleActionMenu(event, menuId) {
+            event.stopPropagation();
+            const menu = document.getElementById('action-menu-' + menuId);
+            
+            // Close all other open menus
+            document.querySelectorAll('[id^="action-menu-"]').forEach(m => {
+                if (m.id !== 'action-menu-' + menuId) {
+                    m.classList.add('hidden');
+                }
+            });
+            
+            // Toggle current menu
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
+        // Close menus when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('[onclick*="toggleActionMenu"]')) {
+                document.querySelectorAll('[id^="action-menu-"]').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+            }
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal-backdrop')) {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
     </script>
-</body>
-</html>
+
+    <!-- MODALES -->
+    
+    <!-- Modal: Nuevo Gasto -->
+    <div id="modal-nuevo-gasto" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-receipt text-blue-600 mr-2"></i>Nuevo Gasto
+                </h3>
+                <button onclick="closeModal('modal-nuevo-gasto')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Monto</label>
+                        <input type="number" step="0.01" placeholder="0.00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Categoría</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <option value="">Seleccionar categoría</option>
+                        <option>Materiales</option>
+                        <option>Mano de obra</option>
+                        <option>Servicios</option>
+                        <option>Herramientas</option>
+                        <option>Transporte</option>
+                        <option>Administrativos</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Proyecto</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">Sin proyecto</option>
+                        <option>Construcción Torre Norte</option>
+                        <option>Remodelación Oficinas</option>
+                        <option>Ampliación Bodega</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
+                    <textarea rows="3" placeholder="Descripción del gasto..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Comprobante</label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                        <p class="text-sm text-gray-600">Arrastra archivos aquí o haz clic para seleccionar</p>
+                        <input type="file" class="hidden" accept="image/*,.pdf">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-nuevo-gasto')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Guardar Gasto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Nueva Factura -->
+    <div id="modal-nueva-factura" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-file-invoice-dollar text-blue-600 mr-2"></i>Nueva Factura
+                </h3>
+                <button onclick="closeModal('modal-nueva-factura')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Folio</label>
+                        <input type="text" placeholder="Auto-generado" class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha Emisión</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha Vencimiento</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="font-semibold text-gray-700 mb-3">Datos del Cliente</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">RFC</label>
+                            <input type="text" placeholder="RFC del cliente" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Razón Social</label>
+                            <input type="text" placeholder="Nombre o razón social" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="font-semibold text-gray-700 mb-3">Conceptos</h4>
+                    <div class="space-y-2 mb-3">
+                        <div class="flex gap-2 items-end">
+                            <div class="flex-1">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Descripción</label>
+                                <input type="text" placeholder="Concepto" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            </div>
+                            <div class="w-24">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Cantidad</label>
+                                <input type="number" placeholder="1" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            </div>
+                            <div class="w-32">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Precio Unit.</label>
+                                <input type="number" step="0.01" placeholder="0.00" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            </div>
+                            <button type="button" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="text-sm text-blue-600 hover:text-blue-700 font-semibold">
+                        <i class="fas fa-plus mr-1"></i>Agregar Concepto
+                    </button>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <div class="flex justify-between items-center text-lg font-bold">
+                        <span>Total:</span>
+                        <span class="text-blue-600">$0.00</span>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-nueva-factura')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Generar Factura
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Entrada de Material -->
+    <div id="modal-entrada-material" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-arrow-down text-green-600 mr-2"></i>Entrada de Material
+                </h3>
+                <button onclick="closeModal('modal-entrada-material')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Movimiento</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <option>Compra</option>
+                            <option>Devolución</option>
+                            <option>Ajuste inventario</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Material</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <option value="">Seleccionar material</option>
+                        <option>Cemento Portland - 50kg</option>
+                        <option>Varilla corrugada 3/8"</option>
+                        <option>Arena de río - m³</option>
+                        <option>Grava - m³</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Cantidad</label>
+                        <input type="number" step="0.01" placeholder="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Costo Unitario</label>
+                        <input type="number" step="0.01" placeholder="0.00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Proveedor</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">Sin proveedor</option>
+                        <option>Cementos del Sur</option>
+                        <option>Aceros del Caribe</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Notas</label>
+                    <textarea rows="3" placeholder="Observaciones..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-entrada-material')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-check mr-2"></i>Registrar Entrada
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Salida de Material -->
+    <div id="modal-salida-material" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-arrow-up text-red-600 mr-2"></i>Salida de Material
+                </h3>
+                <button onclick="closeModal('modal-salida-material')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Movimiento</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <option>Uso en proyecto</option>
+                            <option>Venta</option>
+                            <option>Desperdicio</option>
+                            <option>Ajuste inventario</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Material</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <option value="">Seleccionar material</option>
+                        <option>Cemento Portland - 50kg (150 disponibles)</option>
+                        <option>Varilla corrugada 3/8" (250 disponibles)</option>
+                        <option>Arena de río - m³ (45 disponibles)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Cantidad a Retirar</label>
+                    <input type="number" step="0.01" placeholder="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    <p class="text-xs text-gray-500 mt-1">Cantidad disponible: 150 unidades</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Proyecto Destino</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <option value="">Seleccionar proyecto</option>
+                        <option>Construcción Torre Norte</option>
+                        <option>Remodelación Oficinas</option>
+                        <option>Ampliación Bodega</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Responsable</label>
+                    <input type="text" placeholder="Nombre del responsable" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Notas</label>
+                    <textarea rows="3" placeholder="Observaciones..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-salida-material')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-check mr-2"></i>Registrar Salida
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Proyecto -->
+    <div id="modal-nuevo-proyecto" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-project-diagram text-blue-600 mr-2"></i>Nuevo Proyecto
+                </h3>
+                <button onclick="closeModal('modal-nuevo-proyecto')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre del Proyecto</label>
+                    <input type="text" placeholder="Ej: Construcción Torre Norte" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Cliente</label>
+                    <input type="text" placeholder="Nombre del cliente" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha Inicio</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha Estimada Fin</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Presupuesto Total</label>
+                        <input type="number" step="0.01" placeholder="0.00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Estado Inicial</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <option>Activo</option>
+                            <option>En pausa</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicación</label>
+                    <input type="text" placeholder="Dirección del proyecto" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
+                    <textarea rows="4" placeholder="Descripción detallada del proyecto..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Responsable del Proyecto</label>
+                    <input type="text" placeholder="Nombre del responsable" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-nuevo-proyecto')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Crear Proyecto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Proveedor -->
+    <div id="modal-nuevo-proveedor" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-truck text-blue-600 mr-2"></i>Nuevo Proveedor
+                </h3>
+                <button onclick="closeModal('modal-nuevo-proveedor')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre o Razón Social</label>
+                    <input type="text" placeholder="Ej: Cementos del Sur" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">RFC</label>
+                        <input type="text" placeholder="RFC123456ABC" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Categoría</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <option value="">Seleccionar</option>
+                            <option>Materiales</option>
+                            <option>Servicios</option>
+                            <option>Maquinaria</option>
+                            <option>Transporte</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Teléfono</label>
+                        <input type="tel" placeholder="(123) 456-7890" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                        <input type="email" placeholder="contacto@proveedor.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Dirección</label>
+                    <input type="text" placeholder="Calle, número, colonia" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Productos/Servicios</label>
+                    <textarea rows="3" placeholder="Descripción de productos o servicios que ofrece..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Condiciones de Pago</label>
+                    <input type="text" placeholder="Ej: 30 días, Contado, etc." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-nuevo-proveedor')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Guardar Proveedor
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Cambiar Contraseña -->
+    <div id="modal-cambiar-password" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+            <div class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-key text-blue-600 mr-2"></i>Cambiar Contraseña
+                </h3>
+                <button onclick="closeModal('modal-cambiar-password')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña Actual</label>
+                    <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nueva Contraseña</label>
+                    <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    <p class="text-xs text-gray-500 mt-1">Mínimo 8 caracteres, incluir mayúsculas, minúsculas y números</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Confirmar Nueva Contraseña</label>
+                    <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-cambiar-password')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Actualizar Contraseña
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Configurar 2FA -->
+    <div id="modal-configurar-2fa" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+            <div class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-shield-alt text-blue-600 mr-2"></i>Configurar 2FA
+                </h3>
+                <button onclick="closeModal('modal-configurar-2fa')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 mb-4">Escanea este código QR con tu aplicación de autenticación (Google Authenticator, Authy, etc.)</p>
+                    <div class="w-48 h-48 bg-gray-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-qrcode text-6xl text-gray-400"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-4">O ingresa este código manualmente:</p>
+                    <code class="bg-gray-100 px-4 py-2 rounded text-sm font-mono">ABCD EFGH IJKL MNOP</code>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Código de Verificación</label>
+                    <input type="text" placeholder="000000" maxlength="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest" required>
+                    <p class="text-xs text-gray-500 mt-1 text-center">Ingresa el código de 6 dígitos de tu aplicación</p>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-configurar-2fa')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-check mr-2"></i>Activar 2FA
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Ver Detalles (genérico) -->
+    <div id="modal-ver-detalles" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-info-circle text-blue-600 mr-2"></i>Detalles
+                </h3>
+                <button onclick="closeModal('modal-ver-detalles')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-info-circle text-blue-600 text-xl mt-1"></i>
+                        <div>
+                            <h4 class="font-semibold text-blue-900 mb-1">Información General</h4>
+                            <p class="text-sm text-blue-800">Este modal se adaptará según el tipo de elemento seleccionado.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="text-xs font-semibold text-gray-500 uppercase">ID</label>
+                        <p class="text-gray-800 font-medium">#12345</p>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-gray-500 uppercase">Fecha</label>
+                        <p class="text-gray-800 font-medium">15/01/2025</p>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-gray-500 uppercase">Estado</label>
+                        <span class="inline-block px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Activo</span>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-gray-500 uppercase">Monto</label>
+                        <p class="text-gray-800 font-medium text-lg">$25,000.00</p>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="text-xs font-semibold text-gray-500 uppercase mb-2 block">Descripción</label>
+                    <p class="text-gray-700 bg-gray-50 p-4 rounded-lg">Descripción detallada del elemento seleccionado. Esta sección mostrará toda la información relevante.</p>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-ver-detalles')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cerrar
+                    </button>
+                    <button type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-edit mr-2"></i>Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Confirmar Eliminación -->
+    <div id="modal-confirmar-eliminar" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+            <div class="p-6 text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">¿Confirmar Eliminación?</h3>
+                <p class="text-gray-600 mb-6">Esta acción no se puede deshacer. ¿Estás seguro de que deseas eliminar este elemento?</p>
+                <div class="flex justify-center gap-3">
+                    <button type="button" onclick="closeModal('modal-confirmar-eliminar')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="button" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-trash mr-2"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Importar Excel -->
+    <div id="modal-importar-excel" class="modal fixed inset-0 z-50 items-center justify-center">
+        <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4">
+            <div class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-file-excel text-green-600 mr-2"></i>Importar desde Excel
+                </h3>
+                <button onclick="closeModal('modal-importar-excel')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-info-circle text-blue-600 text-xl mt-1"></i>
+                        <div class="text-sm">
+                            <p class="font-semibold text-blue-900 mb-1">Formato del archivo</p>
+                            <p class="text-blue-800">El archivo debe ser formato .xlsx o .xls con las columnas especificadas en la plantilla.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors cursor-pointer">
+                    <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
+                    <p class="text-lg font-semibold text-gray-700 mb-2">Arrastra tu archivo aquí</p>
+                    <p class="text-sm text-gray-500 mb-4">o haz clic para seleccionar</p>
+                    <input type="file" accept=".xlsx,.xls" class="hidden" id="excel-upload">
+                    <label for="excel-upload" class="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
+                        <i class="fas fa-folder-open mr-2"></i>Seleccionar Archivo
+                    </label>
+                </div>
+
+                <div>
+                    <button onclick="alert('Descargando plantilla...')" class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-download mr-2"></i>Descargar Plantilla Excel
+                    </button>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="closeModal('modal-importar-excel')" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="button" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-file-import mr-2"></i>Importar Datos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
